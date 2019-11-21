@@ -7,6 +7,8 @@ import domain.sheets.SheetFinder;
 import domain.sheets.SheetRepository;
 import domain.shirts.ShirtFinder;
 import domain.shirts.ShirtRepository;
+import domain.shoes.ShoeFinder;
+import domain.shoes.ShoeRepository;
 import domain.trousers.TrouserFinder;
 import domain.trousers.TrouserRepository;
 
@@ -26,5 +28,10 @@ public class DomainConfiguration {
     @Bean
     public TrouserFinder trouserFinder(TrouserRepository repo) {
         return new TrouserFinder(repo);
+    }
+
+    @Bean
+    public ShoeFinder shoeFinder(ShoeRepository repo) {
+        return new ShoeFinder(repo);
     }
 }

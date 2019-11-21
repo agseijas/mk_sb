@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import infra.entry.FindSheetCommand;
 import infra.entry.FindShirtCommand;
+import infra.entry.FindShoeCommand;
 import infra.entry.FindTrouserCommand;
 import infra.entry.Sheet;
 import infra.entry.Shirt;
+import infra.entry.Shoe;
 import infra.entry.Trouser;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -25,6 +27,7 @@ public class ClosetApi {
     private final FindShirtCommand findShirtCommand;
     private final FindSheetCommand findSheetCommand;
     private final FindTrouserCommand findTrouserCommand;
+    private final FindShoeCommand findShoeCommand;
 
     @GetMapping(value = "/shirt/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     public Mono<Shirt> findShirt(@PathVariable Long id) {
@@ -47,6 +50,13 @@ public class ClosetApi {
                 .orElseThrow(TrouserNotFound::new);
     }
 
+    @GetMapping(value = "/shoe/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public Mono<Shoe> findShoe(@PathVariable Long id) {
+        return findShoeCommand.find(id)
+                .map(Mono::justOrEmpty)
+                .orElseThrow(ShoeNotFound::new);
+    }
+
     @ResponseStatus(code = NOT_FOUND, reason = "shirt not found")
     static class ShirtNotFound extends RuntimeException {}
 
@@ -55,4 +65,7 @@ public class ClosetApi {
 
     @ResponseStatus(code = NOT_FOUND, reason = "trouser not found")
     static class TrouserNotFound extends RuntimeException {}
+
+    @ResponseStatus(code = NOT_FOUND, reason = "shoe not found")
+    static class ShoeNotFound extends RuntimeException {}
 }

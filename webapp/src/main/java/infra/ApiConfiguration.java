@@ -5,10 +5,12 @@ import org.springframework.context.annotation.Configuration;
 
 import domain.sheets.SheetFinder;
 import domain.shirts.ShirtFinder;
+import domain.shoes.ShoeFinder;
 import domain.trousers.TrouserFinder;
 import infra.api.ClosetApi;
 import infra.entry.FindSheetCommand;
 import infra.entry.FindShirtCommand;
+import infra.entry.FindShoeCommand;
 import infra.entry.FindTrouserCommand;
 
 @Configuration
@@ -33,10 +35,16 @@ public class ApiConfiguration {
     }
 
     @Bean
+    public FindShoeCommand findShoeCommand(ShoeFinder shoeFinder) {
+        return new FindShoeCommand(shoeFinder);
+    }
+
+    @Bean
     public ClosetApi closetApi(FindShirtCommand findShirtCommand,
                                FindSheetCommand findSheetCommand,
-                               FindTrouserCommand findTrouserCommand) {
-        return new ClosetApi(findShirtCommand, findSheetCommand, findTrouserCommand);
+                               FindTrouserCommand findTrouserCommand,
+                               FindShoeCommand findShoeCommand) {
+        return new ClosetApi(findShirtCommand, findSheetCommand, findTrouserCommand, findShoeCommand);
     }
 
 }

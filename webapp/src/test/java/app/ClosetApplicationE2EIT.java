@@ -30,8 +30,7 @@ public class ClosetApplicationE2EIT {
     @Test
     @Sql(statements = "INSERT INTO SHIRT (id) values (1);")
     public void dressesForWork() {
-        stubFor(get(urlEqualTo("/trouser/1"))
-                .willReturn(aResponse()
+        stubFor(get(urlEqualTo("/trouser/1")).willReturn(aResponse()
                         .withHeader("Content-Type", APPLICATION_JSON_UTF8_VALUE)
                         .withBody("{ \"id\": \"1\"}")));
 
@@ -48,10 +47,6 @@ public class ClosetApplicationE2EIT {
     @Sql(statements = "INSERT INTO SHIRT (id) values (1);")
     @Sql(statements = "INSERT INTO SHEET (id) values (1);")
     public void cannotGetDressedSoGoesBackToBed() {
-        /*stubFor(get(urlEqualTo("/trouser/1"))
-                .willReturn(aResponse()
-                        .withHeader("Content-Type", APPLICATION_JSON_UTF8_VALUE)
-                        .withBody("{ \"id\": \"1\"}")));*/
 
         client.get().uri("/shirt/1").exchange()
                 .expectStatus().is2xxSuccessful()

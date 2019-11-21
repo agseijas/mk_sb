@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import domain.sheets.SheetRepository;
 import domain.shirts.ShirtRepository;
+import domain.shoes.ShoeRepository;
 import domain.trousers.TrouserRepository;
 import infra.repository.jpa.sheets.SheetDAO;
 import infra.repository.jpa.sheets.SheetEntity;
@@ -17,6 +18,9 @@ import infra.repository.jpa.sheets.SheetJPARepository;
 import infra.repository.jpa.shirts.ShirtDAO;
 import infra.repository.jpa.shirts.ShirtEntity;
 import infra.repository.jpa.shirts.ShirtJPARepository;
+import infra.repository.jpa.shoe.ShoeDAO;
+import infra.repository.jpa.shoe.ShoeEntity;
+import infra.repository.jpa.shoe.ShoeJPARepository;
 import infra.repository.rest.trousers.TrouserRestRepository;
 
 @Configuration
@@ -25,8 +29,8 @@ import infra.repository.rest.trousers.TrouserRestRepository;
 public class RepositoryConfiguration {
 
     @Configuration
-    @EnableJpaRepositories(basePackageClasses = {ShirtJPARepository.class, SheetJPARepository.class })
-    @EntityScan(basePackageClasses = { SheetEntity.class, ShirtEntity.class} )
+    @EnableJpaRepositories(basePackageClasses = {ShirtJPARepository.class, SheetJPARepository.class, ShoeJPARepository.class })
+    @EntityScan(basePackageClasses = { SheetEntity.class, ShirtEntity.class, ShoeEntity.class} )
     public static class DataJPAConfiguration {
         @Bean
         ShirtRepository shirtRepository(ShirtDAO dao){
@@ -36,6 +40,11 @@ public class RepositoryConfiguration {
         @Bean
         SheetRepository sheetRepository(SheetDAO dao){
             return new SheetJPARepository(dao);
+        }
+
+        @Bean
+        ShoeRepository shoeRepository(ShoeDAO dao){
+            return new ShoeJPARepository(dao);
         }
     }
 
