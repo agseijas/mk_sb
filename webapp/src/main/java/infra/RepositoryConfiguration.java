@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 
+import domain.sheets.SheetRepository;
+import domain.shirts.ShirtRepository;
 import domain.trousers.TrouserRepository;
 import infra.repository.jpa.sheets.SheetDAO;
 import infra.repository.jpa.sheets.SheetEntity;
@@ -27,12 +29,12 @@ public class RepositoryConfiguration {
     @EntityScan(basePackageClasses = { SheetEntity.class, ShirtEntity.class} )
     public static class DataJPAConfiguration {
         @Bean
-        ShirtJPARepository shirtJPARepository(ShirtDAO dao){
+        ShirtRepository shirtRepository(ShirtDAO dao){
             return new ShirtJPARepository(dao);
         }
 
         @Bean
-        SheetJPARepository sheetJPARepository(SheetDAO dao){
+        SheetRepository sheetRepository(SheetDAO dao){
             return new SheetJPARepository(dao);
         }
     }
