@@ -50,6 +50,12 @@ public class RepositoryConfiguration {
 
     @Configuration
     public static class RestConfiguration {
+
+        @Bean
+        RestTemplateBuilder restTemplateBuilder() {
+            return new RestTemplateBuilder();
+        }
+
         @Bean
         RestTemplate trousersRestTemplate(RestTemplateBuilder builder,
                                           @Value("${trousers.uri:/trousers-repo}") String uri){

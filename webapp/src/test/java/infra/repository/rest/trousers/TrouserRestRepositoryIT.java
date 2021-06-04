@@ -1,33 +1,29 @@
 package infra.repository.rest.trousers;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static java.util.Optional.empty;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.Optional;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.test.context.TestPropertySource;
 
 import domain.trousers.Trouser;
 import infra.RepositoryConfiguration.RestConfiguration;
 
-@RunWith(SpringRunner.class)
-@RestClientTest
-@ContextConfiguration(classes = RestConfiguration.class)
+@SpringBootTest(webEnvironment = NONE, classes = RestConfiguration.class)
+@AutoConfigureWireMock(port = 0)
+@TestPropertySource(properties = "trousers.uri=http://localhost:${wiremock.server.port}")
 public class TrouserRestRepositoryIT {
-
-    @Autowired
-    private MockRestServiceServer server;
 
     @Autowired
     private TrouserRestRepository underTest;
@@ -35,8 +31,10 @@ public class TrouserRestRepositoryIT {
     @Test
     public void findsTrousersInServer() {
 
-        this.server.expect(requestTo("/trouser/1"))
-                .andRespond(withSuccess("{\"id\":\"1\"}", APPLICATION_JSON_UTF8));
+        stubFor(get(urlEqualTo("/trouser/1"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", APPLICATION_JSON_VALUE)
+                        .withBody("{ \"id\": \"1\"}")));
 
         Optional<Trouser> trouser = underTest.findBy(1L);
 
@@ -45,9 +43,8 @@ public class TrouserRestRepositoryIT {
 
     @Test
     public void notFindsTrousersInServer() {
-
-        this.server.expect(requestTo("/trouser/1"))
-                .andRespond(withStatus(NOT_FOUND));
+        stubFor(get(urlEqualTo("/trouser/1"))
+                .willReturn(aResponse().withStatus(NOT_FOUND.value())));
 
         Optional<Trouser> trouser = underTest.findBy(1L);
 

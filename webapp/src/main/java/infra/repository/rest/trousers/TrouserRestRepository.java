@@ -20,7 +20,7 @@ public class TrouserRestRepository implements TrouserRepository {
     @Override
     public Optional<Trouser> findBy(Long id) {
         try {
-            return Optional.of(client.getForEntity("/trouser/" + id, EndpointTrouser.class).getBody())
+            return Optional.ofNullable(client.getForEntity("/trouser/" + id, EndpointTrouser.class).getBody())
                     .map(this::adapt);
         } catch (NotFound e) {
             return empty();

@@ -1,21 +1,22 @@
 package infra.entry;
 
 import static java.util.Optional.empty;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import domain.shirts.ShirtFinder;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class FindSheetCommandTest {
 
     @Mock
@@ -40,7 +41,7 @@ public class FindSheetCommandTest {
     public void notFindsShirt() {
         when(finder.findBy(1L)).thenReturn(empty());
 
-        Optional shirt = underTest.find(1L);
+        Optional<Shirt> shirt = underTest.find(1L);
 
         assertThat(shirt, is(empty()));
     }

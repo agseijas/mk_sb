@@ -1,23 +1,24 @@
 package infra.repository.jpa.shirts;
 
 import static java.util.Optional.empty;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import domain.shirts.Shirt;
 import infra.RepositoryConfiguration.DataJPAConfiguration;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 //SEE THAT THIS TEST OVERLAPS WITH THE UNIT TEST NAMED SIMILARLY
 //I RECOMMEND TO KEEP THIS TEST AND REMOVE THE UNIT TEST
 @DataJpaTest
