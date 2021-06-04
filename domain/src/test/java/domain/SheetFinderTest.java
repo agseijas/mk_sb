@@ -4,7 +4,7 @@ import static java.util.Optional.empty;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 
@@ -32,7 +32,7 @@ public class SheetFinderTest {
     @Test
     public void findSheet() {
         Sheet expectedSheet = new Sheet(anySheetId);
-        when(repo.findBy(anySheetId)).thenReturn(Optional.of(expectedSheet));
+        given(repo.findBy(anySheetId)).willReturn(Optional.of(expectedSheet));
 
         Optional<Sheet> sheet = underTest.findBy(anySheetId);
 
@@ -41,7 +41,7 @@ public class SheetFinderTest {
 
     @Test
     public void doesntFind() {
-        when(repo.findBy(anySheetId)).thenReturn(empty());
+        given(repo.findBy(anySheetId)).willReturn(empty());
 
         Optional<Sheet> sheet = underTest.findBy(anySheetId);
 

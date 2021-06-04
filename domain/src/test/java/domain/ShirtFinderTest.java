@@ -4,7 +4,7 @@ import static java.util.Optional.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 
@@ -30,7 +30,7 @@ public class ShirtFinderTest {
     @Test
     public void findShirt() {
         Shirt expectedShirt = new Shirt(1L);
-        when(repo.findBy(1L)).thenReturn(of(expectedShirt));
+        given(repo.findBy(1L)).willReturn(of(expectedShirt));
 
         Optional<Shirt> shirt = underTest.findBy(1L);
 
@@ -39,7 +39,7 @@ public class ShirtFinderTest {
 
     @Test
     public void doesntFind() {
-        when(repo.findBy(1L)).thenReturn(empty());
+        given(repo.findBy(1L)).willReturn(empty());
 
         Optional<Shirt> shirt = underTest.findBy(1L);
 

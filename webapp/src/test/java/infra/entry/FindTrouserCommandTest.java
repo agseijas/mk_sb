@@ -4,7 +4,7 @@ import static java.util.Optional.empty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 
@@ -30,7 +30,7 @@ public class FindTrouserCommandTest {
     @Test
     public void findsTrouser() {
         Trouser expectedTrouser = new Trouser(1L);
-        when(finder.findBy(1L)).thenReturn(Optional.of(domainTrouser));
+        given(finder.findBy(1L)).willReturn(Optional.of(domainTrouser));
 
         Optional<Trouser> trouser = underTest.find(1L);
 
@@ -39,7 +39,7 @@ public class FindTrouserCommandTest {
 
     @Test
     public void notFindsTrouser() {
-        when(finder.findBy(1L)).thenReturn(empty());
+        given(finder.findBy(1L)).willReturn(empty());
 
         Optional trouser = underTest.find(1L);
 

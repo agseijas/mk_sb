@@ -4,7 +4,7 @@ import static java.util.Optional.empty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 
@@ -30,7 +30,7 @@ public class ShirtJPARepositoryTest {
     @Test
     public void findsShirt() {
         Shirt expectedShirt = new Shirt(1L);
-        when(dao.findById(1L)).thenReturn(Optional.of(new ShirtEntity(1L)));
+        given(dao.findById(1L)).willReturn(Optional.of(new ShirtEntity(1L)));
 
         Optional<Shirt> shirt = underTest.findBy(1L);
 
@@ -39,7 +39,7 @@ public class ShirtJPARepositoryTest {
 
     @Test
     public void notFindsShirt() {
-        when(dao.findById(1L)).thenReturn(empty());
+        given(dao.findById(1L)).willReturn(empty());
 
         Optional<Shirt> shirt = underTest.findBy(1L);
 

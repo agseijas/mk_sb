@@ -4,7 +4,7 @@ import static java.util.Optional.empty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 
@@ -48,7 +48,7 @@ public class ClosetApiTest {
 
     @Test
     public void findsShirt() {
-        when(shirtCommand.find(1L)).thenReturn(Optional.of(aShirt));
+        given(shirtCommand.find(1L)).willReturn(Optional.of(aShirt));
 
         Mono<Shirt> shirt = underTest.findShirt(1L);
 
@@ -57,14 +57,14 @@ public class ClosetApiTest {
 
     @Test
     public void notFindsShirt() {
-        when(shirtCommand.find(2L)).thenReturn(empty());
+        given(shirtCommand.find(2L)).willReturn(empty());
 
         assertThrows(ShirtNotFound.class, () -> underTest.findShirt(2L));
     }
 
     @Test
     public void findsSheet() {
-        when(sheetCommand.find(1L)).thenReturn(Optional.of(aSheet));
+        given(sheetCommand.find(1L)).willReturn(Optional.of(aSheet));
 
         Mono<Sheet> sheet = underTest.findSheet(1L);
 
@@ -73,14 +73,14 @@ public class ClosetApiTest {
 
     @Test
     public void notFindsSheet() {
-        when(sheetCommand.find(2L)).thenReturn(empty());
+        given(sheetCommand.find(2L)).willReturn(empty());
 
         assertThrows(SheetNotFound.class, () -> underTest.findSheet(2L));
     }
 
     @Test
     public void findsTrouser() {
-        when(trouserCommand.find(1L)).thenReturn(Optional.of(aTrouser));
+        given(trouserCommand.find(1L)).willReturn(Optional.of(aTrouser));
 
         Mono<Trouser> trouser = underTest.findTrouser(1L);
 
@@ -89,7 +89,7 @@ public class ClosetApiTest {
 
     @Test
     public void notFindsTrouser() {
-        when(trouserCommand.find(2L)).thenReturn(empty());
+        given(trouserCommand.find(2L)).willReturn(empty());
 
         assertThrows(TrouserNotFound.class, () -> underTest.findTrouser(2L));
     }
